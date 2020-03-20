@@ -1,50 +1,37 @@
 import numpy as np
 
-# Initialize matrix A
-A = np.array([[0.18, 0.21333, 0.18, 0.18, 0.18],
+# Initialize matrix P_tilde
+P_tilde = np.array([[0.18, 0.21333, 0.18, 0.18, 0.18],
               [0.21333, 0.18, 0.23, 0.21333, 0.23],
               [0.21333, 0.18, 0.18, 0.21333, 0.18],
               [0.18, 0.21333, 0.23, 0.18, 0.23],
               [0.21333, 0.21333, 0.18, 0.21333, 0.18]])
 
-# Returns the approximated eigenvalue
-def eigenvalue(A, v):
-    Av = A.dot(v)
-    return v.dot(Av)
 
-# The main algorithm which takes the matrix A
+# The main algorithm which takes a matrix A
 # and the number of iterations as arguments
 def power_method(A, iterations):
     n, d = A.shape
 
-# Randomly initialize v with the uniform distribution
-# over the unit interval
+    # Randomly initialize v with the uniform distribution
+    # over the unit interval
     v = np.random.random(d)
-
-# Initialize leading eigenvalue approximation
-    ev = eigenvalue(A, v)
 
     for i in range(iterations):
         # Apply matrix A to v
         Av = A.dot(v)
 
-        # Normalize v to prevent overflow or underflow
+        # Normalize v to prevent numerical issues
         v_new = Av / np.linalg.norm(Av)
 
-        # Get new approximation for leading eigenvalue
-        ev_new = eigenvalue(A, v_new)
-
-        # Print iteration number and approximations
+        # Print iteration number and approximation
         print("Iteration " + str(i + 1))
         print(v_new)
-        print(ev_new)
 
-        # Update the approximations
+        # Update the approximation
         v = v_new
-        ev = ev_new
+
+    return v
 
 
-    return v, ev
-
-
-power_method(A, 1000)
+power_method(P_tilde, 1000)
