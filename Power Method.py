@@ -20,26 +20,29 @@ def power_method(A, iterations):
 # Randomly initialize v with the uniform distribution
 # over the unit interval
     v = np.random.random(d)
+
+# Initialize leading eigenvalue approximation
     ev = eigenvalue(A, v)
 
     for i in range(iterations):
         # Apply matrix A to v
         Av = A.dot(v)
 
-        # Normalize v to have unit norm since it's a probability distribution
+        # Normalize v to prevent overflow or underflow
         v_new = Av / np.linalg.norm(Av)
 
         # Get new approximation for leading eigenvalue
         ev_new = eigenvalue(A, v_new)
 
+        # Print iteration number and approximations
+        print("Iteration " + str(i + 1))
+        print(v_new)
+        print(ev_new)
+
         # Update the approximations
         v = v_new
         ev = ev_new
 
-        # Print iteration number and approximations
-        print("Iteration " + str(i + 1))
-        print(v)
-        print(ev)
 
     return v, ev
 
